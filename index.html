@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=+, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Empresa X</h1>
+
+    <h2>Formulário de clientes</h2>
+    <form action="/dados" method="POST">
+        <div>
+            <label for="nome">Nome: </label>
+            <input type="text" name="nome" id="nome" placeholder="Informe nome completo" required>
+        </div>
+        <div>
+            <label for="email">E-mail: </label>
+            <input type="email" name="email" id="email" placeholder="Informe e-mail" required>
+        </div>
+        <div>
+            <label for="plano">Escolha um plano: </label>
+            <select name="plano" id="plano" required>
+                <option value="Gold">Gold</option>
+                <option value="Silver">Silver</option>
+                <option value="Bronze">Bronze</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Enviar</button>
+            <button type="reset">Limpar</button>
+        </div>
+    </form>
+
+</body>
+
+</html>
