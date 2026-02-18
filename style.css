@@ -1,0 +1,226 @@
+/* BASE DE CORES- variáveis globais para serem usadas em todo projeto. Se utiliza a var para apropriar a cor, se for necessário alterar é só mudar a cor na root */
+:root{
+    --blue900:#0B3D91;
+    --blue700:#135BDE;
+    --blue600:#1F6FEB;
+    --gray900:#111827;
+    --gray700:#374151;
+    --gray500:#6B7280;
+    --bg:#EEF2F7;
+
+    --painel:#ffffff;
+    --line: rgba(17,24,39,.10);
+
+    --gold:#F59E0B;
+    --gold2:#D97706;
+
+    --shadow: 0 18px 40px rgba(17,24,39,.12);
+    --radius: 14px;
+}
+
+*{ box-sizing: border-box; } /*faz um box com borda em volta do layout*/
+
+body{
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--gray900);
+}
+
+/* Topbar */
+.topbar{
+    height: 78px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 16px 22px;
+    color: #fff;
+    background: radial-gradient(1200px 260px at 30% 50%, rgba(255,255,255,.18), transparent 55%),
+                linear-gradient(90deg, var(--bg), var(--blue900));
+    box-shadow: 0 10px 24px rgba(11,61,145,.25);
+}
+
+.marca{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+}
+
+.logo{
+    height: 64px;
+    width: auto;
+    display:block;
+}
+
+.usuario{
+    display:flex;
+    gap: 8px;
+    align-items:baseline;
+    font-size: 15px;
+    opacity: .95;
+}
+
+.pagePrincipal{
+    max-width: 1100px;
+    margin: 26px auto 70px;
+    padding: 0 18px
+}
+
+.pageTitulo{
+    font-size: 20px;
+    margin: 15px 0 12px;
+    letter-spacing: -0 .4px;
+    color: #1c1e6d;
+    /* color:#292b2c; */
+    text-align: center;
+}
+
+/* Paineis */
+.painel{
+    background: var(--panel);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.painelHeader{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 12px;
+    /* padding: 1px 12px; */
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(31,111,235,.08), rgba(31,111,235,0));
+    color: #5c5c5c;
+}
+.painelHeader img{ /*ajuste tamanho da lupa*/
+    width: 22px;      
+    height: auto;
+    cursor: pointer;  /* deixa comportamento de botão */
+    transition: transform .15s ease;
+}
+
+.painelBody{
+    padding: 13px 20px 17px;   /* menos espaço em cima */
+
+}
+
+/* Form Adicionar Clientes*/
+.linhaForm{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;  /* ajusta cada grid de coluna proporcional*/
+    gap: 16px;
+    align-items: center;
+}
+
+.campo{
+    display: flex;
+    align-items: center;
+    gap: 10px;              /* espaço entre label e input */
+}
+
+.campo input,
+.campo select{
+    width: 300%; /*ajuste de espaçamento entre os inputs*/
+    font-size: 12px;
+    padding: 6px 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    color: #5c5c5c;
+}
+
+.labelForm{
+    font-size: 12px;
+    color: #5c5c5c;
+    font-weight: 800;
+    white-space: nowrap;
+    width: 120px;           
+    text-align: left;
+}
+.formBotoes{
+  display:flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.btnAdicionar{
+    /* width:200px; */
+    border: none;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 15px;
+    padding: 7px 32px;
+    border-radius: 10px;
+    color: #fff;
+    background: linear-gradient(180deg, #4ade80, #056e2c) !important;
+    box-shadow: 0 10px 18px rgba(11, 245, 23, 0.22);
+    transition: transform .06s ease, filter .15s ease;
+
+}
+/*Card Cadastro*/
+
+.btnEditar{
+    /* width: 200px;; */
+    border: none;
+    cursor: pointer;
+    font-weight: 300;
+    font-size: 12px;
+    padding: 7px 32px;
+    border-radius: 10px;
+    color: #fff;
+    background: linear-gradient(180deg, #ecb34f, #D97706);
+    box-shadow: 0 10px 18px rgba(245,158,11,.22);
+    transition: transform .06s ease, filter .15s ease;
+    text-align: right;
+}
+
+.inputBusca{
+    display: flex;
+    width: 250px;
+    /* max-width: 360px; */
+    padding: 8px 10px;
+    font-size: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(17,24,39,.14);
+    margin-bottom: 12px;
+    background: #fff;
+    align-items: right;
+}
+
+.tabelaWrap{
+    overflow-x: auto;
+}
+
+.tabelaClientes{
+    font-size: 12px;
+    color: #5c5c5c;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.tabelaClientes thead th{
+    background: linear-gradient(
+        180deg,
+        rgba(31,111,235,.15),
+        rgba(31,111,235,.08)
+    );
+    font-weight: 600;
+    padding: 6px 8px; 
+}
+
+.barraTabela{
+    display: flex;
+    justify-content: flex-end;   /* joga busca para direita */
+}
+
+
+.listAcoes{
+    width: 190px;
+    text-align: center;
+}
+
+
