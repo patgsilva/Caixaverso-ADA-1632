@@ -18,9 +18,11 @@
     --radius: 14px;
 }
 
-*{ box-sizing: border-box; } /*faz um box com borda em volta do layout*/
+* { 
+    box-sizing: border-box; /*faz um box com borda em volta do layout*/
+} 
 
-body{
+body {
     margin: 0;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     background: var(--bg);
@@ -28,7 +30,7 @@ body{
 }
 
 /* Topbar */
-.topbar{
+.topbar {
     height: 78px;
     display:flex;
     align-items:center;
@@ -40,19 +42,19 @@ body{
     box-shadow: 0 10px 24px rgba(11,61,145,.25);
 }
 
-.marca{
+.marca {
     display:flex;
     align-items:center;
     gap: 12px;
 }
 
-.logo{
+.logo {
     height: 64px;
     width: auto;
     display:block;
 }
 
-.usuario{
+.usuario {
     display:flex;
     gap: 8px;
     align-items:baseline;
@@ -60,13 +62,13 @@ body{
     opacity: .95;
 }
 
-.pagePrincipal{
+.pagePrincipal {
     max-width: 1100px;
     margin: 26px auto 70px;
     padding: 0 18px
 }
 
-.pageTitulo{
+.pageTitulo {
     font-size: 20px;
     margin: 15px 0 12px;
     letter-spacing: -0 .4px;
@@ -76,7 +78,7 @@ body{
 }
 
 /* Paineis */
-.painel{
+.painel {
     background: var(--panel);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
@@ -85,7 +87,7 @@ body{
     margin-bottom: 15px;
 }
 
-.painelHeader{
+.painelHeader {
     display:flex;
     justify-content: space-between;
     align-items: center;
@@ -95,34 +97,35 @@ body{
     background: linear-gradient(180deg, rgba(31,111,235,.08), rgba(31,111,235,0));
     color: #5c5c5c;
 }
-.painelHeader img{ /*ajuste tamanho da lupa*/
+
+.painelHeader img { /*ajuste tamanho da lupa*/
     width: 22px;      
     height: auto;
     cursor: pointer;  /* deixa comportamento de botão */
     transition: transform .15s ease;
 }
 
-.painelBody{
+.painelBody {
     padding: 13px 20px 17px;   /* menos espaço em cima */
 
 }
 
 /* Form Adicionar Clientes*/
-.linhaForm{
+.linhaForm {
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;  /* ajusta cada grid de coluna proporcional*/
     gap: 16px;
     align-items: center;
 }
 
-.campo{
+.campo {
     display: flex;
     align-items: center;
     gap: 10px;              /* espaço entre label e input */
 }
 
 .campo input,
-.campo select{
+.campo select {
     width: 300%; /*ajuste de espaçamento entre os inputs*/
     font-size: 12px;
     padding: 6px 8px;
@@ -131,7 +134,7 @@ body{
     color: #5c5c5c;
 }
 
-.labelForm{
+.labelForm {
     font-size: 12px;
     color: #5c5c5c;
     font-weight: 800;
@@ -139,7 +142,8 @@ body{
     width: 120px;           
     text-align: left;
 }
-.formBotoes{
+
+.formBotoes {
   display:flex;
   justify-content: center;
   margin-top: 20px;
@@ -162,7 +166,7 @@ body{
 }
 /*Card Cadastro*/
 
-.btnEditar{
+.btnEditar {
     /* width: 200px;; */
     border: none;
     cursor: pointer;
@@ -177,7 +181,7 @@ body{
     text-align: right;
 }
 
-.inputBusca{
+.inputBusca {
     display: flex;
     width: 250px;
     /* max-width: 360px; */
@@ -190,11 +194,11 @@ body{
     align-items: right;
 }
 
-.tabelaWrap{
+.tabelaWrap {
     overflow-x: auto;
 }
 
-.tabelaClientes{
+.tabelaClientes {
     font-size: 12px;
     color: #5c5c5c;
     width: 100%;
@@ -202,7 +206,7 @@ body{
     border-spacing: 0;
 }
 
-.tabelaClientes thead th{
+.tabelaClientes thead th {
     background: linear-gradient(
         180deg,
         rgba(31,111,235,.15),
@@ -212,13 +216,13 @@ body{
     padding: 6px 8px; 
 }
 
-.barraTabela{
+.barraTabela {
     display: flex;
     justify-content: flex-end;   /* joga busca para direita */
 }
 
 
-.listAcoes{
+.listAcoes {
     width: 190px;
     text-align: center;
 }
