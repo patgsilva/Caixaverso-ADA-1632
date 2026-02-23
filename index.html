@@ -2,113 +2,182 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=+, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Caixaverso - Clientes</title>
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
     <header class="topbar">
-        <div class="marca">
+      <div class="marca">
         <img
-            src="./imgs/caixaverso-logo.png"
-            alt="logo Caixaverso Solutions"
-            class="logo"/>
-        </div>
-        <div class="usuario">
-            <span><strong>Usuário: Adriana</strong></span> <id="codigoUsuario">
-            <!--pensar em como vai identificar o usuário <input type="text" name="nomeUsuario" id="nomeUsuario" placeholder="Usuário de Sistema " readonly /> -->
-        </div>
+          src="./imgs/caixaverso-logo.png"
+          alt="logo Caixaverso Solutions"
+          class="logo"
+        />
+      </div>
+      <div class="usuario ajusteImagens">
+        <span><strong>Usuário: </strong></span>
+        <input
+          type="text"
+          name="codigoUsuario"
+          id="codigoUsuario"
+          placeholder="Nome do usuário"
+          required
+        />
+        <img
+          src="./imgs/accept.png"
+          id="validarUsuario"
+          alt="Validar Usuário"
+        />
+      </div>
     </header>
 
-    <main class = "pagePrincipal">
-        <h3 class="pageTitulo">Formulário Gestão de Clientes</h3>
+    <main class="pagePrincipal">
+      <h3 class="pageTitulo">Formulário Gestão de Clientes</h3>
 
-        <!-- Card Dados de Clientes -->
-         <section class="painel">
-            <header class="painelHeader">
-                <h4 style="margin: 4px 6px 6px;"><strong>Dados de Clientes</strong></h4>
-                <img src="./imgs/lupa.png" alt="Consultar Clientes">
-            </header>
-            <div class="painelBody">
-                <form id="formCliente" class="form" action="/dados" method="POST">
-                    <div class="linhaForm">
-                        <div class="campo">
-                            <label class="labelForm" for="nome"><strong>Nome: </strong></label>
-                            <input type="text" name="nome" id="nome" placeholder="Digite o nome completo" required />
-                        </div>
-                        <div class="campo">
-                            <label class="labelForm" for="email"><strong>Email: </strong></label>
-                            <input type="email" name="email" id="email" placeholder="E-mail válido" required />
-                        </div>
-                        <div class="campo">
-                            <label class="labelForm" for="plano"><strong>Plano Desejado:</strong></label>
-                            <select name="plano" id="plano" required>
-                                <option value=" " selected disabled>Plano</option>
-                                <option value="Gold">Gold</option>
-                                <option value="Silver">Silver</option>
-                                <option value="Bronze">Bronze</option>
-                            </select>
-                        </div>
-                        <div class="campo">
-                            <label class="labelForm" for="cep"><strong>Cep: </strong></label>
-                            <input type="text" name="cep" id="cep" placeholder="Digite um cep Válido" required />
-                        </div>
-                        <div class="campo">
-                            <label class="labelForm" for="rua"><strong>Rua: </strong></label>
-                            <input type="text" name="rua" id="rua" required />
-                        </div>
-                        <div class="campo">
-                            <label class="labelForm" for="bairro"><strong>Bairro: </strong></label>
-                            <input type="text" name="bairro" id="bairro" required />
-                        </div>
-                        <div class="campo">
-                            <label class="labelForm" for="cidade"><strong>Cidade: </strong></label>
-                            <input type="text" name="cidade" id="cidade" required />
-                        </div>
-                        <div class="campo">
-                            <label class="labelForm" for="estado"><strong>Estado: </strong></label>
-                            <input type="text" name="estado" id="estado" required />
-                        </div>                        
-                    </div>
-                    <div class="formBotoes">
-                        <button type="submit" class="btnAdicionar" ><strong>+ Adicionar</strong></button>
-                        <!-- <button type="submit" class="btnExcluir"><strong>Excluir</strong></button> -->
-                    </div>
-                </form>
+      <!-- Card Dados de Clientes -->
+      <section class="painel">
+        <header class="ajusteImagens justificarBetween">
+          <h4 style="margin: 4px 5px 5px">
+            <strong>Dados de Clientes</strong>
+          </h4>
+          <img
+            src="./imgs/lupa.png"
+            id="consultaCliente"
+            alt="Consultar Clientes"
+          />
+        </header>
+        <div class="painelBody">
+          <form id="formCliente" class="form" action="/dados" method="POST">
+            <div class="linhaForm">
+              <div class="campo col-4">
+                <label class="labelForm" for="nome"
+                  ><strong>Nome: </strong></label
+                >
+                <input
+                  type="text"
+                  name="nome"
+                  id="nome"
+                  placeholder="Digite o nome completo"
+                  required
+                />
+              </div>
+              <div class="campo col-4">
+                <label class="labelForm" for="email"
+                  ><strong>Email: </strong></label
+                >
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="E-mail válido"
+                  required
+                />
+              </div>
+              <div class="campo col-4">
+                <label class="labelForm" for="plano"
+                  ><strong>Plano Desejado:</strong></label
+                >
+                <select name="plano" id="plano" required>
+                  <option value=" " selected disabled>Plano</option>
+                  <option value="Gold">Gold</option>
+                  <option value="Silver">Silver</option>
+                  <option value="Bronze">Bronze</option>
+                </select>
+              </div>
             </div>
-         </section>
-
-        <!-- Card Clientes Cadastrados-->  
-        <section class="painel">
-            <header class="painelHeader">
-                <h4 style="margin: 4px 6px 6px;"><strong>Clientes Cadastrados</strong></h4>
-            </header>
-            <div class="painelBody">
-                <div class="barraTabela">
-                    <input id="busca" class="inputBusca" type="search" placeholder="Buscar cliente" />                
-                </div>
-
-                <div class="tabelaWrap">
-                    <table class="tabelaClientes">
-                        <thead>
-                            <tr>
-                                <th><strong>Nome</strong></th>
-                                <th><strong>Email</strong></th>
-                                <th><strong>Plano</strong></th>
-                                <th class="listAcoes"><strong>Ações</strong></th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="listaClientes">
-                        <!-- Linhas serão inseridas via JS -->
-                        </tbody>
-                    </table>
-                </div>
+            <div class="linhaForm">
+              <div class="campo col-2">
+                <label class="labelForm" for="cep"
+                  ><strong>Cep: </strong></label
+                >
+                <input
+                  type="text"
+                  name="cep"
+                  id="cep"
+                  maxlength="9"
+                  placeholder="00000-000"
+                  required
+                />
+              </div>
+              <div class="campo col-4">
+                <label class="labelForm" for="rua"
+                  ><strong>Rua: </strong></label
+                >
+                <input type="text" name="rua" id="rua" required />
+              </div>
+              <div class="campo col-2">
+                <label class="labelForm" for="bairro"
+                  ><strong>Bairro: </strong></label
+                >
+                <input type="text" name="bairro" id="bairro" required />
+              </div>
+              <div class="campo col-3">
+                <label class="labelForm" for="cidade"
+                  ><strong>Cidade: </strong></label
+                >
+                <input type="text" name="cidade" id="cidade" required />
+              </div>
+              <div class="campo col-1">
+                <label class="labelForm" for="estado"
+                  ><strong>UF: </strong></label
+                >
+                <input
+                  type="text"
+                  name="estado"
+                  id="estado"
+                  maxlength="2"
+                  required
+                />
+              </div>
             </div>
-        </section>
+            <div class="formBotoes">
+              <button type="submit" class="btnAdicionar">
+                <strong>+ Adicionar</strong>
+              </button>
+              <!-- <button type="submit" class="btnExcluir"><strong>Excluir</strong></button> -->
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Card Clientes Cadastrados-->
+      <section class="painel">
+        <header class="ajusteImagens">
+          <h4 style="margin: 4px 6px 6px">
+            <strong>Clientes Cadastrados</strong>
+          </h4>
+        </header>
+        <div class="painelBody">
+          <div class="barraTabela">
+            <input
+              id="busca"
+              class="inputBusca"
+              type="search"
+              placeholder="Buscar cliente"
+            />
+          </div>
+
+          <div class="tabelaWrap">
+            <table class="tabelaClientes">
+              <thead>
+                <tr>
+                  <th><strong>Nome</strong></th>
+                  <th><strong>Email</strong></th>
+                  <th><strong>Plano</strong></th>
+                  <th class="listAcoes"><strong>Ações</strong></th>
+                </tr>
+              </thead>
+
+              <tbody id="listaClientes">
+                <!-- Linhas serão inseridas via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
     </main>
-
 
     <!-- 
     <h2>Formulário de clientes</h2>
