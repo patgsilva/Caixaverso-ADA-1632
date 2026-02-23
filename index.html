@@ -2,7 +2,7 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=+, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Caixaverso - Clientes</title>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -17,21 +17,19 @@
         </div>
         <div class="usuario">
             <span><strong>Usuário: Adriana</strong></span> <id="codigoUsuario">
-            <!--pensar em como vai identificar o usuário <input type="text" name="nomeUsuario" id="nomeUsuario" placeholder="Usuário de Sistema " readonly /> -->
         </div>
     </header>
 
     <main class = "pagePrincipal">
         <h3 class="pageTitulo">Formulário Gestão de Clientes</h3>
 
-        <!-- Card Dados de Clientes -->
          <section class="painel">
             <header class="painelHeader">
                 <h4 style="margin: 4px 6px 6px;"><strong>Dados de Clientes</strong></h4>
                 <img src="./imgs/lupa.png" alt="Consultar Clientes">
             </header>
             <div class="painelBody">
-                <form id="formCliente" class="form" action="/dados" method="POST">
+                <form id="formCliente" class="form">
                     <div class="linhaForm">
                         <div class="campo">
                             <label class="labelForm" for="nome"><strong>Nome: </strong></label>
@@ -73,13 +71,11 @@
                     </div>
                     <div class="formBotoes">
                         <button type="submit" class="btnAdicionar" ><strong>+ Adicionar</strong></button>
-                        <!-- <button type="submit" class="btnExcluir"><strong>Excluir</strong></button> -->
                     </div>
                 </form>
             </div>
          </section>
 
-        <!-- Card Clientes Cadastrados-->  
         <section class="painel">
             <header class="painelHeader">
                 <h4 style="margin: 4px 6px 6px;"><strong>Clientes Cadastrados</strong></h4>
@@ -93,6 +89,7 @@
                     <table class="tabelaClientes">
                         <thead>
                             <tr>
+                                <th><strong>Avatar</strong></th>
                                 <th><strong>Nome</strong></th>
                                 <th><strong>Email</strong></th>
                                 <th><strong>Plano</strong></th>
@@ -101,7 +98,6 @@
                         </thead>
 
                         <tbody id="listaClientes">
-                        <!-- Linhas serão inseridas via JS -->
                         </tbody>
                     </table>
                 </div>
@@ -109,44 +105,6 @@
         </section>
     </main>
 
-
-    <!-- 
-    <h2>Formulário de clientes</h2>
-    <form action="/dados" method="POST">
-      <div>
-        <label for="nome">Nome: </label>
-        <input
-          type="text"
-          name="nome"
-          id="nome"
-          placeholder="Informe nome completo"
-          required
-        />
-      </div>
-      <div>
-        <label for="email">E-mail: </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Informe e-mail"
-          required
-        />
-      </div>
-      <div>
-        <label for="plano">Escolha um plano: </label>
-        <select name="plano" id="plano" required>
-          <option value="Gold">Gold</option>
-          <option value="Silver">Silver</option>
-          <option value="Bronze">Bronze</option>
-        </select>
-      </div>
-      <div>
-        <button type="submit">Enviar</button>
-        <button type="reset">Limpar</button>
-      </div>
-    </form> -->
   </body>
-
   <script src="script.js"></script>
 </html>
