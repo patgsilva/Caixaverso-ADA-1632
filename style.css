@@ -63,7 +63,7 @@ body {
 }
 
 .pagePrincipal {
-    max-width: 1100px;
+    max-width: 1300px;
     margin: 26px auto 70px;
     padding: 0 18px
 }
@@ -111,11 +111,19 @@ body {
 }
 
 /* Form Adicionar Clientes*/
-.linhaForm {
+.linhaNome {
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;  /* ajusta cada grid de coluna proporcional*/
     gap: 16px;
     align-items: center;
+}
+
+.linhaEndereco {
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;  /* ajusta cada grid de coluna proporcional*/
+    gap: 16px;
+    align-items: center;
+    padding: 16px 0; /* espaçamento entre os campos de endereço e os outros campos */
 }
 
 .campo {
