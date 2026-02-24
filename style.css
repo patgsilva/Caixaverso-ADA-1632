@@ -235,4 +235,9 @@ body {
     text-align: center;
 }
 
-
+.img-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
