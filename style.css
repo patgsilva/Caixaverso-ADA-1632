@@ -88,8 +88,6 @@ body {
     margin-bottom: 15px;
 }
 
-.painelHeader {
-    display:flex;
 .painelHeader{
     display: flex;
     justify-content: space-between;
@@ -100,14 +98,9 @@ body {
     color: #5c5c5c;
 }
 
-.ajusteImagens img{ /*ajuste tamanho da lupa/accept*/
+.ajusteImagens img { /*ajuste tamanho da lupa/accept*/
     width: 25px;      
-    /* height:auto; */
-
-.painelHeader img { /*ajuste tamanho da lupa*/
-    width: 22px;      
-    height: auto;
-    cursor: pointer;  /* deixa comportamento de botão */
+    height: 25px;
 } 
 
 .painelBody {
@@ -121,8 +114,14 @@ body {
 }
 
 /* Form Adicionar Clientes*/
-
 .linhaNome {
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;  /* ajusta cada grid de coluna proporcional*/
+    gap: 16px;
+    align-items: center;
+}
+
+.linhaForm {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 16px;
@@ -136,12 +135,6 @@ body {
 .col-4 { grid-column: span 4; }
 .col-5 { grid-column: span 5; }
 
-.campo{
-  display: flex;
-  align-items: center; /* espaço entre label e input */
-  gap: 10px;
-  margin-bottom: 12px;
-}
 
 .campo input,
 .campo select{

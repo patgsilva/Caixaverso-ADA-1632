@@ -61,15 +61,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
         tdAvatar.appendChild(imgAvatar);
 
         let tdNome = document.createElement("td");
+        tdNome.style.textAlign = "center";
         tdNome.textContent = nome;
 
         let tdEmail = document.createElement("td");
+        tdEmail.style.textAlign = "center";
         tdEmail.textContent = email;
 
         let tdPlano = document.createElement("td");
+        tdPlano.style.textAlign = "center";
         tdPlano.textContent = plano;
 
         let tdAcoes = document.createElement("td");
+        tdAcoes.style.textAlign = "center";
         tdAcoes.textContent = "Excluir"; 
 
         novaLinha.appendChild(tdAvatar);
@@ -82,7 +86,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         formCliente.reset();
     });
-});const storageKey = "clientes.db";
+});
+
+const storageKey = "clientes.db";
 const nomeUsuario = document.querySelector("#codigoUsuario");
 const btnUsuario = document.querySelector("#validarUsuario");
 const formCliente = document.querySelector("#formCliente");

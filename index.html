@@ -50,8 +50,8 @@
         </header>
         <div class="painelBody">
           <form id="formCliente" class="form" action="/dados" method="POST">
-            <div class="linhaForm">
-              <div class="campo col-4">
+            <div class="linhaNome">
+              <div class="campo col-1">
                 <label class="labelForm" for="nome"
                   ><strong>Nome: </strong></label
                 >
@@ -63,7 +63,7 @@
                   required
                 />
               </div>
-              <div class="campo col-4">
+              <div class="campo col-1">
                 <label class="labelForm" for="email"
                   ><strong>Email: </strong></label
                 >
@@ -75,7 +75,7 @@
                   required
                 />
               </div>
-              <div class="campo col-4">
+              <div class="campo col-1">
                 <label class="labelForm" for="plano"
                   ><strong>Plano Desejado:</strong></label
                 >
@@ -163,6 +163,7 @@
             <table class="tabelaClientes">
               <thead>
                 <tr>
+                  <th style="width: 25px;"><strong>Avatar</strong></th>
                   <th><strong>Nome</strong></th>
                   <th><strong>Email</strong></th>
                   <th><strong>Plano</strong></th>
