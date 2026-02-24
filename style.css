@@ -57,7 +57,7 @@ body {
 .usuario {
     display:flex;
     gap: 8px;
-    align-items:baseline;
+    align-items: center;
     font-size: 15px;
     opacity: .95;
 }
@@ -84,57 +84,68 @@ body {
     box-shadow: var(--shadow);
     border: 1px solid var(--line);
     overflow: hidden;
+    padding: 6px 12px;
     margin-bottom: 15px;
 }
 
 .painelHeader {
     display:flex;
+.painelHeader{
+    display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 6px 12px;
-    /* padding: 1px 12px; */
     border-bottom: 1px solid var(--line);
     background: linear-gradient(180deg, rgba(31,111,235,.08), rgba(31,111,235,0));
     color: #5c5c5c;
 }
 
+.ajusteImagens img{ /*ajuste tamanho da lupa/accept*/
+    width: 25px;      
+    /* height:auto; */
+
 .painelHeader img { /*ajuste tamanho da lupa*/
     width: 22px;      
     height: auto;
     cursor: pointer;  /* deixa comportamento de botão */
-    transition: transform .15s ease;
-}
+} 
 
 .painelBody {
     padding: 13px 20px 17px;   /* menos espaço em cima */
 
 }
 
-/* Form Adicionar Clientes*/
-.linhaNome {
-    display:grid;
-    grid-template-columns: 1fr 1fr 1fr;  /* ajusta cada grid de coluna proporcional*/
-    gap: 16px;
-    align-items: center;
-}
-
-.linhaEndereco {
-    display:grid;
-    grid-template-columns: 1fr 1fr 1fr;  /* ajusta cada grid de coluna proporcional*/
-    gap: 16px;
-    align-items: center;
-    padding: 16px 0; /* espaçamento entre os campos de endereço e os outros campos */
-}
-
-.campo {
+.justificarBetween{
     display: flex;
-    align-items: center;
-    gap: 10px;              /* espaço entre label e input */
+    justify-content: space-between;
+}
+
+/* Form Adicionar Clientes*/
+
+.linhaNome {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+  align-items: center;
+}
+
+/* spans definir o tamanho dos campos dos inputs*/
+.col-1 { grid-column: span 1; }
+.col-2 { grid-column: span 2; }
+.col-3 { grid-column: span 3; }
+.col-4 { grid-column: span 4; }
+.col-5 { grid-column: span 5; }
+
+.campo{
+  display: flex;
+  align-items: center; /* espaço entre label e input */
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
 .campo input,
-.campo select {
-    width: 300%; /*ajuste de espaçamento entre os inputs*/
+.campo select{
+    width: 100%; /*ajuste de espaçamento entre os inputs*/
     font-size: 12px;
     padding: 6px 8px;
     border: 1px solid #e5e7eb;
@@ -142,16 +153,18 @@ body {
     color: #5c5c5c;
 }
 
-.labelForm {
+
+.labelForm{
     font-size: 12px;
     color: #5c5c5c;
     font-weight: 800;
     white-space: nowrap;
-    width: 120px;           
+    /* width: 120px;    deixar o tamanho da labels flexivel        */
     text-align: left;
 }
 
-.formBotoes {
+
+.formBotoes{
   display:flex;
   justify-content: center;
   margin-top: 20px;
@@ -235,9 +248,10 @@ body {
     text-align: center;
 }
 
-.img-avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    object-fit: cover;
+/* validação email */
+.invalido {
+    border: 2px solid red;
+    background-color: #ffe6e6;
 }
+
+
