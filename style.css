@@ -181,18 +181,57 @@ body {
 /*Card Cadastro*/
 
 .btnEditar {
-    /* width: 200px;; */
     border: none;
     cursor: pointer;
     font-weight: 300;
     font-size: 12px;
-    padding: 7px 32px;
     border-radius: 10px;
     color: #fff;
     background: linear-gradient(180deg, #ecb34f, #D97706);
     box-shadow: 0 10px 18px rgba(245,158,11,.22);
     transition: transform .06s ease, filter .15s ease;
     text-align: right;
+      /* ESSENCIAIS pro alinhamento */
+    line-height: 1;
+    padding: 6px 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnExcluir {
+  width: 28px;
+  cursor: pointer;
+  object-fit: contain;
+  display: block;
+}
+
+.img-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%; /* deixa redondo */
+}
+
+/* td:last-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+} */
+.acoesBox{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+td, th {
+vertical-align: middle;  /* alinhar todos os elementos da tabela de cadastro */
+}
+
+tbody td{
+  padding: 10px 12px;      /* ajuste como preferir */
+  vertical-align: middle;
 }
 
 .inputBusca {

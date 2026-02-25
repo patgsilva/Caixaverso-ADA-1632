@@ -1,91 +1,126 @@
-document.addEventListener("DOMContentLoaded", function(event) {
-    // Busca o CEP após o usuário sair do campo de entrada (SEU CÓDIGO ORIGINAL MANTIDO)
-    let cep = document.getElementById("cep");
-    let rua = document.getElementById("rua");
-    let bairro = document.getElementById("bairro");
-    let cidade = document.getElementById("cidade");
-    let estado = document.getElementById("estado");
-    
-    cep.addEventListener("blur", function() {
-        if (cep.value.length > 0) {
-            let cepAPI = 'https://viacep.com.br/ws/' + cep.value + '/json/';
-            fetch(cepAPI)
-                .then((response) => response.json())
-                .then(data => {
-                    if (data.erro === "true") {
-                        throw new Error('CEP não encontrado');
-                    }
-                    else {
-                        rua.value = data.logradouro;
-                        bairro.value = data.bairro;
-                        cidade.value = data.localidade;
-                        estado.value = data.uf;
-                    }
-                })
-                .catch(error => {
-                    rua.value = '';
-                    bairro.value = '';
-                    cidade.value = '';
-                    estado.value = '';
-                    alert('Erro ao buscar o CEP! \n' + error.message);
-                    cep.focus(); 
-                    cep.value = '';
-                });
-            //formata o campo de cep no formato 00000-000
-            let valor = cep.value.replace(/\D/g, ""); // Remove tudo o que não é dígito
-            if (valor.length <= 8) {
-                cep.value = valor.replace(/(\d{5})(\d{3})/, "$1-$2");
-            }
-        }
-        
-    });
+document.addEventListener("DOMContentLoaded", function (event) {
+  // Busca o CEP após o usuário sair do campo de entrada (SEU CÓDIGO ORIGINAL MANTIDO)
+  let cep = document.getElementById("cep");
+  let rua = document.getElementById("rua");
+  let bairro = document.getElementById("bairro");
+  let cidade = document.getElementById("cidade");
+  let estado = document.getElementById("estado");
 
-    let formCliente = document.getElementById("formCliente");
-    let listaClientes = document.getElementById("listaClientes");
+  cep.addEventListener("blur", function () {
+    if (cep.value.length > 0) {
+      let cepAPI = "https://viacep.com.br/ws/" + cep.value + "/json/";
+      fetch(cepAPI)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.erro === "true") {
+            throw new Error("CEP não encontrado");
+          } else {
+            rua.value = data.logradouro;
+            bairro.value = data.bairro;
+            cidade.value = data.localidade;
+            estado.value = data.uf;
+          }
+        })
+        .catch((error) => {
+          rua.value = "";
+          bairro.value = "";
+          cidade.value = "";
+          estado.value = "";
+          alert("Erro ao buscar o CEP! \n" + error.message);
+          cep.focus();
+          cep.value = "";
+        });
+      //formata o campo de cep no formato 00000-000
+      let valor = cep.value.replace(/\D/g, ""); // Remove tudo o que não é dígito
+      if (valor.length <= 8) {
+        cep.value = valor.replace(/(\d{5})(\d{3})/, "$1-$2");
+      }
+    }
+  });
 
-    formCliente.addEventListener("submit", function(e) {
-        e.preventDefault();
+  let formCliente = document.getElementById("formCliente");
+  let listaClientes = document.getElementById("listaClientes");
 
-        let nome = document.getElementById("nome").value;
-        let email = document.getElementById("email").value;
-        let plano = document.getElementById("plano").value;
+  formCliente.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-        let avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(nome)}&background=random`;
+    let nome = document.getElementById("nome").value;
+    let email = document.getElementById("email").value;
+    let plano = document.getElementById("plano").value;
 
-        let novaLinha = document.createElement("tr");
+    let avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(nome)}&background=random`;
 
-        let tdAvatar = document.createElement("td");
-        let imgAvatar = document.createElement("img");
-        imgAvatar.src = avatarUrl;
-        imgAvatar.classList.add("img-avatar");
-        tdAvatar.appendChild(imgAvatar);
+    let novaLinha = document.createElement("tr");
 
-        let tdNome = document.createElement("td");
-        tdNome.style.textAlign = "center";
-        tdNome.textContent = nome;
+    let tdAvatar = document.createElement("td");
+    let imgAvatar = document.createElement("img");
+    imgAvatar.src = avatarUrl;
+    imgAvatar.classList.add("img-avatar");
+    tdAvatar.appendChild(imgAvatar);
+    tdAvatar.style.display = "flex";
+    tdAvatar.style.justifyContent = "center";
+    tdAvatar.style.alignItems = "center";
 
-        let tdEmail = document.createElement("td");
-        tdEmail.style.textAlign = "center";
-        tdEmail.textContent = email;
+    let tdNome = document.createElement("td");
+    tdNome.style.textAlign = "center";
+    tdNome.textContent = nome;
 
-        let tdPlano = document.createElement("td");
-        tdPlano.style.textAlign = "center";
-        tdPlano.textContent = plano;
+    let tdEmail = document.createElement("td");
+    tdEmail.style.textAlign = "center";
+    tdEmail.textContent = email;
 
-        let tdAcoes = document.createElement("td");
-        tdAcoes.style.textAlign = "center";
-        tdAcoes.textContent = "Excluir"; 
+    let tdPlano = document.createElement("td");
+    tdPlano.style.textAlign = "center";
+    tdPlano.textContent = plano;
 
-        novaLinha.appendChild(tdAvatar);
-        novaLinha.appendChild(tdNome);
-        novaLinha.appendChild(tdEmail);
-        novaLinha.appendChild(tdPlano);
-        novaLinha.appendChild(tdAcoes);
+    let tdAcoes = document.createElement("td");
+    tdAcoes.style.textAlign = "center";
+    // tdAcoes.textContent = "Excluir";
+    tdAcoes.classList.add("tdAcoes");
 
-        listaClientes.appendChild(novaLinha);
+    let btnEditar = document.createElement("button");
+    btnEditar.type = "button";
+    btnEditar.classList.add("btnEditar");
 
-        formCliente.reset();
-    });
+    let strongEditar = document.createElement("strong");
+    strongEditar.textContent = "Editar";
+    btnEditar.appendChild(strongEditar);
+
+    let btnExcluir = document.createElement("img");
+    btnExcluir.src = "./imgs/excluir.png";
+    btnExcluir.alt = "Excluir";
+    btnExcluir.classList.add("btnExcluir");
+
+    // container para os botões (flex)
+    let acoesBox = document.createElement("div");
+    acoesBox.classList.add("acoesBox");
+
+    acoesBox.appendChild(btnEditar);
+    acoesBox.appendChild(btnExcluir);
+
+    tdAcoes.appendChild(acoesBox);
+
+    novaLinha.appendChild(tdAvatar);
+    novaLinha.appendChild(tdNome);
+    novaLinha.appendChild(tdEmail);
+    novaLinha.appendChild(tdPlano);
+    novaLinha.appendChild(tdAcoes);
+
+    listaClientes.appendChild(novaLinha);
+
+    //eventos botões Editar e Excluir
+    (btnEditar.addEventListener("click", () => {
+      document.getElementById("nome").value = tdNome.textContent;
+      document.getElementById("email").value = tdEmail.textContent;
+      document.getElementById("plano").value = tdPlano.textContent;
+      novaLinha.remove();
+    }),
+      btnExcluir.addEventListener("click", function () {
+        novaLinha.remove();
+      }));
+
+    formCliente.reset();
+  });
 });
 
 const storageKey = "clientes.db";
@@ -114,7 +149,7 @@ btnUsuario.addEventListener("click", () => {
 
   //valida usuario da lista
   if (codigosAceitos.includes(usuarioDigitado)) {
-    alert("Bem vindo(a) " + usuarioDigitado);
+    alert("Bem vindo(a) " + usuarioDigitado + "!");
   } else {
     alert("Usuário não cadastrado, tente novamente");
   }
