@@ -9,10 +9,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
   cep.addEventListener("blur", function () {
     if (cep.value.length > 0) {
       let cepAPI = "https://viacep.com.br/ws/" + cep.value + "/json/";
-      fetch(cepAPI)
-        .then((response) => response.json())
+      fetch(cepAPI) //faz a requisição http para api
+        .then((response) => response.json()) //api responde em json e transforma pra JS
         .then((data) => {
-          if (data.erro === "true") {
+          //obtendo os dados
+          if (data.erro) {
+            // é booleano
+            // if (data.erro === "true") {
             throw new Error("CEP não encontrado");
           } else {
             rua.value = data.logradouro;
@@ -31,9 +34,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
           cep.value = "";
         });
       //formata o campo de cep no formato 00000-000
-      let valor = cep.value.replace(/\D/g, ""); // Remove tudo o que não é dígito
+      let valor = cep.value.replace(/\D/g, ""); // Remove tudo o que não é número
       if (valor.length <= 8) {
-        cep.value = valor.replace(/(\d{5})(\d{3})/, "$1-$2");
+        cep.value = valor.replace(/(\d{5})(\d{3})/, "$1-$2"); // coloca a máscara com traço -
       }
     }
   });
@@ -72,6 +75,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
     let tdPlano = document.createElement("td");
     tdPlano.style.textAlign = "center";
     tdPlano.textContent = plano;
+    //adiciona cores no tipo plano escolhido
+    tdPlano.classList.add("plano" + plano);
 
     let tdAcoes = document.createElement("td");
     tdAcoes.style.textAlign = "center";
@@ -123,18 +128,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
   });
 });
 
-const storageKey = "clientes.db";
 const nomeUsuario = document.querySelector("#codigoUsuario");
 const btnUsuario = document.querySelector("#validarUsuario");
-const formCliente = document.querySelector("#formCliente");
-const nomeCliente = document.querySelector("#nome");
-const emailCliente = document.querySelector("#email");
-const planoCliente = document.querySelector("#plano");
-const cepCliente = document.querySelector("#cep");
-const ruaCliente = document.querySelector("#rua");
-const bairroCliente = document.querySelector("#bairro");
-const cidadeCliente = document.querySelector("#cidade");
-const ufCliente = document.querySelector("#estado");
 
 // função Validar Usuário
 btnUsuario.addEventListener("click", () => {
@@ -151,27 +146,40 @@ btnUsuario.addEventListener("click", () => {
   if (codigosAceitos.includes(usuarioDigitado)) {
     alert("Bem vindo(a) " + usuarioDigitado + "!");
   } else {
-    alert("Usuário não cadastrado, tente novamente");
+    alert("Usuário  " + usuarioDigitado + "não cadastrado , tente novamente!");
   }
-});
-
-// máscara CEP
-cepCliente.addEventListener("input", () => {
-  let validaCep = cepCliente.value;
-
-  validaCep = validaCep.replace(/\D/g, "");
-  validaCep = validaCep.replace(/^(\d{5})(\d)/, "$1-$2");
-  cepCliente.value = validaCep;
 });
 
 //valida email
-emailCliente.addEventListener("blur", () => {
-  //   Console.log("Blur disparado");
-  let validaEmail = emailCliente.value.trim();
-  if (validaEmail !== "" && !validaEmail.includes("@")) {
-    //verifica se o email atende todas as validações quando ele foi definido no type=email
-    emailCliente.classList.add("invalido");
+email.addEventListener("blur", () => {
+  let tiraEspacoEmail = email.value.trim(); //tira espaçom antes e depois
+
+  const validaEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // até antes do ponto /^[^\s@]+@[^\s@]+\. valida tudo até o @ - Um ou mais caracteres que NÃO sejam espaço nem @
+
+  if (tiraEspacoEmail !== "" && !validaEmail.test(tiraEspacoEmail)) {
+    email.classList.add("invalido");
   } else {
-    emailCliente.classList.remove("invalido");
+    email.classList.remove("invalido");
   }
+});
+
+//campo  de busca
+const campoBusca = document.querySelector("#busca");
+const listaClientes = document.querySelector("#listaClientes");
+
+campoBusca.addEventListener("input", () => {
+  const textoMinusculo = campoBusca.value.trim().toLowerCase(); //considera o texto em minúsculo e sem espaço
+  const clientesCadastrados = listaClientes.querySelectorAll("tr"); //considera todas as linhas da tabela (tr)
+
+  clientesCadastrados.forEach(function (linhaTabela) {
+    //percorro por todos os cadastros pra armazenar o contéudo na linhaTabela
+    const textoLinha = linhaTabela.innerText.toLowerCase(); //pega todo texto da linha em minúsculo
+
+    if (textoLinha.includes(textoMinusculo)) {
+      linhaTabela.style.display = ""; //se o texto digitado contem na linha, mostra
+    } else {
+      linhaTabela.style.display = "none"; //se o texto digitado contem na linha, esconde
+    }
+  });
 });

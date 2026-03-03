@@ -77,6 +77,35 @@ body {
     text-align: center;
 }
 
+.planoGold {
+    /* background: linear-gradient(45deg, #d4af37, #f1c40f); */
+    font-size: 15px;
+    color: var(--gold);
+    /* padding: 4px 8px; */
+    /* border-radius: 6px; */
+    font-weight: bold;
+
+}
+
+.planoSilver {
+  /* background: linear-gradient(45deg, #bdc3c7, #ecf0f1); */
+  color: #857f7ffd;
+  font-size: 15px;
+  /* padding: 4px 8px; */
+  /* border-radius: 6px; */
+  font-weight: bold;
+}
+
+.planoBronze {
+  /* background: linear-gradient(45deg, #cd7f32, #e67e22); */
+  color: rgb(168, 147, 25);
+  font-size: 15px;
+  /* padding: 4px 8px; */
+  /* border-radius: 6px; */
+  font-weight: bold;
+}
+
+
 /* Paineis */
 .painel {
     background: var(--panel);
@@ -165,11 +194,11 @@ body {
 }
 
 .btnAdicionar{
-    /* width:200px; */
     border: none;
     cursor: pointer;
     font-weight: 400;
     font-size: 15px;
+    font-style: strong;
     padding: 7px 32px;
     border-radius: 10px;
     color: #fff;
@@ -178,6 +207,30 @@ body {
     transition: transform .06s ease, filter .15s ease;
 
 }
+
+.btnAdicionar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.status {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.status.loading {
+  color: orange;
+}
+
+.status.success {
+  color: green;
+}
+
+.status.error {
+  color: red;
+}
+
 /*Card Cadastro*/
 
 .btnEditar {
@@ -244,7 +297,8 @@ tbody td{
     border: 1px solid rgba(17,24,39,.14);
     margin-bottom: 12px;
     background: #fff;
-    align-items: right;
+    justify-content: flex-end;
+    gap: 8px;
 }
 
 .tabelaWrap {
@@ -286,4 +340,8 @@ tbody td{
     background-color: #ffe6e6;
 }
 
+ #consultaCliente { /*espaço entre o botão de busca e a lupa*/
+  margin-left: 7px;
+ /* cursor: pointer;  */
+}
 
