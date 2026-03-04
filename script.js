@@ -51,6 +51,42 @@ document.addEventListener("DOMContentLoaded", function (event) {
   formCliente.addEventListener("submit", function (e) {
     e.preventDefault();
 
+    btnAdicionar.disabled = true;
+    btnAdicionar.innerHTML = "Processando...";
+
+    statusArea.innerHTML = "";
+
+    // Lista de etapas
+    const etapas = [
+      "1. Consultando CEP...",
+      "2. Realizando análise de crédito...",
+      "3. Gerando Avatar...",
+      "4. Cadastro concluído!"
+    ];
+
+    let etapaAtual = 0;
+
+    // Função para mostrar cada etapa com intervalo
+    function mostrarEtapa() {
+      if (etapaAtual < etapas.length) {
+        const p = document.createElement("p");
+        p.textContent = etapas[etapaAtual];
+        statusArea.appendChild(p);
+
+        setTimeout(() => {
+          p.remove();
+        }, 7000);
+
+        etapaAtual++;
+        setTimeout(mostrarEtapa, 1500); 
+      } else {      
+        btnAdicionar.disabled = false;
+        btnAdicionar.innerHTML = "<strong>+ Adicionar</strong>";
+        }    
+    }
+
+    mostrarEtapa();
+
     //le os campos do formulario
     let nome = document.getElementById("nome").value;
     let email = document.getElementById("email").value;
