@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function (event) {
+
+  //ao carregar a página, gera a tabela com os clientes cadastrados no local storage
+  gerarTabela();
+
   // Busca o CEP após o usuário sair do campo de entrada (SEU CÓDIGO ORIGINAL MANTIDO)
   let cep = document.getElementById("cep");
   let rua = document.getElementById("rua");
@@ -47,14 +51,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
   formCliente.addEventListener("submit", function (e) {
     e.preventDefault();
 
+    //le os campos do formulario
     let nome = document.getElementById("nome").value;
     let email = document.getElementById("email").value;
     let plano = document.getElementById("plano").value;
-
+    let cep = document.getElementById("cep").value;
+    let rua = document.getElementById("rua").value;
+    let bairro = document.getElementById("bairro").value;
+    let cidade = document.getElementById("cidade").value;
+    let estado = document.getElementById("estado").value;
     let avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(nome)}&background=random`;
 
+    //configura avatar a ser salvo na tabela
     let novaLinha = document.createElement("tr");
-
     let tdAvatar = document.createElement("td");
     let imgAvatar = document.createElement("img");
     imgAvatar.src = avatarUrl;
@@ -113,6 +122,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     listaClientes.appendChild(novaLinha);
 
+    //após adicionar o cliente na tabela, cria o objeto cliente e adiciona no local storage
+    let objCliente = criaObjetoCliente(avatarUrl, nome, email, plano, cep, rua, bairro, cidade, estado);
+    adicionaItemNoLocalStorage("cliente_db", objCliente);
+
     //eventos botões Editar e Excluir
     (btnEditar.addEventListener("click", () => {
       document.getElementById("nome").value = tdNome.textContent;
@@ -127,6 +140,132 @@ document.addEventListener("DOMContentLoaded", function (event) {
     formCliente.reset();
   });
 });
+
+
+function criaObjetoCliente(avatarUrl, nome, email, plano, cep, rua, bairro, cidade, estado) {
+  let cliente = {
+    id: Date.now(), // Gera um ID único com base no timestamp
+    avatarUrl: avatarUrl,
+    nome: nome,
+    email: email,
+    plano: plano,
+    cep: cep,
+    rua: rua,
+    bairro: bairro,
+    cidade: cidade,
+    estado: estado
+  };
+  return cliente;
+}
+
+function adicionaItemNoLocalStorage(chaveStorage, objeto) {
+
+  let clientesExistentes = JSON.parse(localStorage.getItem(chaveStorage)) || [];
+  clientesExistentes.push(objeto);
+  localStorage.setItem(chaveStorage, JSON.stringify(clientesExistentes));
+  //console.log(clientesExistentes);
+  alert("Cliente adicionado ao Local Storage!");
+  
+}
+
+function adicionaNovoClienteNaTabela(objeto) {
+  let listaClientes = document.getElementById("listaClientes");
+  
+  // Cria nova linha
+  let novaLinha = document.createElement("tr");
+  
+  // Avatar
+  let tdAvatar = document.createElement("td");
+  let imgAvatar = document.createElement("img");
+  imgAvatar.src = objeto.avatarUrl;
+  imgAvatar.classList.add("img-avatar");
+  tdAvatar.appendChild(imgAvatar);
+  tdAvatar.style.display = "flex";
+  tdAvatar.style.justifyContent = "center";
+  tdAvatar.style.alignItems = "center";
+  
+  // Nome
+  let tdNome = document.createElement("td");
+  tdNome.style.textAlign = "center";
+  tdNome.textContent = objeto.nome;
+  
+  // Email
+  let tdEmail = document.createElement("td");
+  tdEmail.style.textAlign = "center";
+  tdEmail.textContent = objeto.email;
+  
+  // Plano
+  let tdPlano = document.createElement("td");
+  tdPlano.style.textAlign = "center";
+  tdPlano.textContent = objeto.plano;
+  tdPlano.classList.add("plano" + objeto.plano);
+  
+  // Ações
+  let tdAcoes = document.createElement("td");
+  tdAcoes.style.textAlign = "center";
+  tdAcoes.classList.add("tdAcoes");
+  
+  let btnEditar = document.createElement("button");
+  btnEditar.type = "button";
+  btnEditar.classList.add("btnEditar");
+  let strongEditar = document.createElement("strong");
+  strongEditar.textContent = "Editar";
+  btnEditar.appendChild(strongEditar);
+  
+  let btnExcluir = document.createElement("img");
+  btnExcluir.src = "./imgs/excluir.png";
+  btnExcluir.alt = "Excluir";
+  btnExcluir.classList.add("btnExcluir");
+  
+  let acoesBox = document.createElement("div");
+  acoesBox.classList.add("acoesBox");
+  acoesBox.appendChild(btnEditar);
+  acoesBox.appendChild(btnExcluir);
+  
+  tdAcoes.appendChild(acoesBox);
+  
+  // Monta a linha
+  novaLinha.appendChild(tdAvatar);
+  novaLinha.appendChild(tdNome);
+  novaLinha.appendChild(tdEmail);
+  novaLinha.appendChild(tdPlano);
+  novaLinha.appendChild(tdAcoes);
+  
+  listaClientes.appendChild(novaLinha);
+  
+  // Eventos dos botões
+  btnEditar.addEventListener("click", () => {
+    document.getElementById("nome").value = tdNome.textContent;
+    document.getElementById("email").value = tdEmail.textContent;
+    document.getElementById("plano").value = tdPlano.textContent;
+    novaLinha.remove();
+    removerDoLocalStorage(objeto.id);
+  });
+  
+  btnExcluir.addEventListener("click", () => {
+    novaLinha.remove();
+    console.log("Removendo cliente com ID: " + objeto.id);
+    removerDoLocalStorage(objeto.id);
+  });
+}
+
+function removerDoLocalStorage(id) {
+    let listaClientes = JSON.parse(localStorage.getItem('cliente_db')) || [];
+    listaClientes = listaClientes.filter(cliente => cliente.id !== id);
+    localStorage.setItem('cliente_db', JSON.stringify(listaClientes));
+}
+
+function gerarTabela() {
+    // Recupera e converte
+    const dados = JSON.parse(localStorage.getItem('cliente_db')) || [];
+    const tabelaBody = document.getElementById('listaClientes');
+    tabelaBody.innerHTML = ""; // Limpa a tabela antes de recriar
+    dados.forEach(cliente => {
+        adicionaNovoClienteNaTabela(cliente);
+    });
+    console.log("Gerando tabela com os seguintes dados do Local Storage:");
+    console.log(dados);
+}
 
 const nomeUsuario = document.querySelector("#codigoUsuario");
 const btnUsuario = document.querySelector("#validarUsuario");
