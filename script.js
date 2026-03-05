@@ -47,13 +47,36 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   let formCliente = document.getElementById("formCliente");
   let listaClientes = document.getElementById("listaClientes");
+  let btnAdicionar = document.getElementById("btnAdicionar");
+  let statusArea = document.getElementById("statusArea");
 
-  formCliente.addEventListener("submit", function (e) {
+  // Função para simular a análise de crédito
+  function simularAnaliseCredito(plano) {
+    return new Promise((resolve, reject) => {
+      // Normaliza para maiúsculo
+      const planoNormalizado = plano.trim().toUpperCase();
+
+      if (planoNormalizado === "GOLD") {
+        setTimeout(() => {
+          if (Math.random() < 0.2) {
+            reject("Análise de crédito reprovada.");
+          } else {
+            resolve("Análise de crédito aprovada. Parabéns!");
+          }
+        }, 5000);
+      } else {
+        // Silver e bronze passam direto
+        resolve("Plano sem análise de crédito.");
+      }
+    });
+  }
+
+  // Etapa de status
+  formCliente.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     btnAdicionar.disabled = true;
     btnAdicionar.innerHTML = "Processando...";
-
     statusArea.innerHTML = "";
 
     // Lista de etapas
@@ -64,28 +87,75 @@ document.addEventListener("DOMContentLoaded", function (event) {
       "4. Cadastro concluído!"
     ];
 
-    let etapaAtual = 0;
+    // let etapaAtual = 0;
+    let resultadoCredito = ""; // guarda o resultado da análise
 
-    // Função para mostrar cada etapa com intervalo
-    function mostrarEtapa() {
-      if (etapaAtual < etapas.length) {
-        const p = document.createElement("p");
-        p.textContent = etapas[etapaAtual];
-        statusArea.appendChild(p);
+    // Percorre cada etapa sequencialmente
+    for (const etapa of etapas) {
+    const p = document.createElement("p");
+    p.textContent = etapa;
+    statusArea.appendChild(p);
 
-        setTimeout(() => {
-          p.remove();
-        }, 7000);
-
-        etapaAtual++;
-        setTimeout(mostrarEtapa, 1500); 
-      } else {      
-        btnAdicionar.disabled = false;
-        btnAdicionar.innerHTML = "<strong>+ Adicionar</strong>";
-        }    
+    if (etapa.includes("crédito")) {
+      try {
+        resultadoCredito = await simularAnaliseCredito(
+          document.getElementById("plano").value
+        );
+        const res = document.createElement("p");
+        res.textContent = resultadoCredito;
+        statusArea.appendChild(res);
+      } catch (erro) {
+        const res = document.createElement("p");
+        res.textContent = erro;
+        statusArea.appendChild(res);
+      }
     }
 
-    mostrarEtapa();
+    // Aguarda um intervalo entre etapas (opcional)
+    await new Promise(resolve => setTimeout(resolve, 1500));
+  }
+
+  // Finalização
+  await new Promise(resolve => setTimeout(resolve, 3000));
+  statusArea.innerHTML = "";
+  btnAdicionar.disabled = false;
+  btnAdicionar.innerHTML = "<strong>+ Adicionar</strong>";
+
+   
+
+    // // Função para mostrar cada etapa com intervalo
+    // async function mostrarEtapa() {
+    //   if (etapaAtual < etapas.length) {
+    //     const p = document.createElement("p");
+    //     p.textContent = etapas[etapaAtual];
+    //     statusArea.appendChild(p);
+
+    //     // Se for a etapa da análise de crédito
+    //       if (etapas[etapaAtual].includes("crédito")) {
+    //         try {
+    //           resultadoCredito = await simularAnaliseCredito(document.getElementById("plano").value);
+    //           const res = document.createElement("p");
+    //           res.textContent = resultadoCredito;
+    //           statusArea.appendChild(res);
+    //         } catch (erro) {
+    //           const res = document.createElement("p");
+    //           res.textContent = erro;
+    //           statusArea.appendChild(res);
+    //         }
+    //       }
+
+    //       etapaAtual++;
+    //       setTimeout(mostrarEtapa, 1500);
+    //     } else {
+    //       setTimeout(() => {
+    //         statusArea.innerHTML = "";
+    //         btnAdicionar.disabled = false;
+    //         btnAdicionar.innerHTML = "<strong>+ Adicionar</strong>";
+    //       }, 3000);
+    //     }
+    //   }
+    // mostrarEtapa();
+  
 
     //le os campos do formulario
     let nome = document.getElementById("nome").value;
