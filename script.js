@@ -209,41 +209,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
   btnAdicionar.disabled = false;
   btnAdicionar.innerHTML = "<strong>+ Adicionar</strong>";
 
-   
-
-    // // Função para mostrar cada etapa com intervalo
-    // async function mostrarEtapa() {
-    //   if (etapaAtual < etapas.length) {
-    //     const p = document.createElement("p");
-    //     p.textContent = etapas[etapaAtual];
-    //     statusArea.appendChild(p);
-
-    //     // Se for a etapa da análise de crédito
-    //       if (etapas[etapaAtual].includes("crédito")) {
-    //         try {
-    //           resultadoCredito = await simularAnaliseCredito(document.getElementById("plano").value);
-    //           const res = document.createElement("p");
-    //           res.textContent = resultadoCredito;
-    //           statusArea.appendChild(res);
-    //         } catch (erro) {
-    //           const res = document.createElement("p");
-    //           res.textContent = erro;
-    //           statusArea.appendChild(res);
-    //         }
-    //       }
-
-    //       etapaAtual++;
-    //       setTimeout(mostrarEtapa, 1500);
-    //     } else {
-    //       setTimeout(() => {
-    //         statusArea.innerHTML = "";
-    //         btnAdicionar.disabled = false;
-    //         btnAdicionar.innerHTML = "<strong>+ Adicionar</strong>";
-    //       }, 3000);
-    //     }
-    //   }
-    // mostrarEtapa();
-  
 
     //le os campos do formulario
     let nome = document.getElementById("nome").value;
