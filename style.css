@@ -105,7 +105,6 @@ body {
   font-weight: bold;
 }
 
-
 /* Paineis */
 .painel {
     background: var(--panel);
@@ -229,6 +228,12 @@ body {
 
 .status.error {
   color: red;
+}
+
+#statusArea {
+  margin-top:10px;
+  font-size:13px;
+  color:#333;
 }
 
 /*Card Cadastro*/

@@ -18,13 +18,7 @@
       </div>
       <div class="usuario ajusteImagens">
         <span><strong>Usuário: </strong></span>
-        <input
-          type="text"
-          name="codigoUsuario"
-          id="codigoUsuario"
-          placeholder="Nome do usuário"
-          required
-        />
+        <span id="codigoUsuario"><strong>Não identificado</strong></span>
         <img
           src="./imgs/accept.png"
           id="validarUsuario"
@@ -131,8 +125,8 @@
               <button type="submit" id="btnAdicionar" class="btnAdicionar">
                 <strong>+ Adicionar</strong>
               </button>
-              <!-- <button type="submit" class="btnExcluir"><strong>Excluir</strong></button> -->
             </div>
+            <div id="statusArea"></div>
           </form>
         </div>
       </section>
@@ -173,9 +167,6 @@
 
               <tbody id="listaClientes">
                 <!-- Linhas serão inseridas via JS -->
-
-                <div id="statusArea"></div> <!--Linha adicionada-->
-
               </tbody>
             </table>
           </div>
