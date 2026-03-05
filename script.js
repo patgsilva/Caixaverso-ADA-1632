@@ -215,6 +215,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
     let email = document.getElementById("email").value;
     let plano = document.getElementById("plano").value;
     let avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(nome)}&background=random`;
+    let cep = document.getElementById("cep").value;
+    let rua = document.getElementById("rua").value;
+    let bairro = document.getElementById("bairro").value;
+    let cidade = document.getElementById("cidade").value;
+    let estado = document.getElementById("estado").value;
 
     //configura avatar a ser salvo na tabela
     let novaLinha = document.createElement("tr");
@@ -277,26 +282,24 @@ document.addEventListener("DOMContentLoaded", function (event) {
     listaClientes.appendChild(novaLinha);
 
     //após adicionar o cliente na tabela, cria o objeto cliente e adiciona no local storage
-    let objCliente = criaObjetoCliente(
-      avatarUrl,
-      nome,
-      email,
-      plano,
-      cep,
-      rua,
-      bairro,
-      cidade,
-      estado,
-    );
-    adicionaItemNoLocalStorage("cliente_db", objCliente);
+    let objeto = criaObjetoCliente(avatarUrl, nome, email, plano, cep, rua, bairro, cidade, estado);
+    console.log("Objeto cliente criado:");
+    console.log(objeto);
+    adicionaItemNoLocalStorage("cliente_db", objeto);
 
     //eventos botões Editar e Excluir
     (btnEditar.addEventListener("click", () => {
-      document.getElementById("nome").value = tdNome.textContent;
-      document.getElementById("email").value = tdEmail.textContent;
-      document.getElementById("plano").value = tdPlano.textContent;
-
+      console.log(objeto);
+      document.getElementById("nome").value = objeto.nome;
+      document.getElementById("email").value = objeto.email;
+      document.getElementById("plano").value = objeto.plano; 
+      document.getElementById("cep").value = objeto.cep;
+      document.getElementById("rua").value = objeto.rua;
+      document.getElementById("bairro").value = objeto.bairro;
+      document.getElementById("cidade").value = objeto.cidade;
+      document.getElementById("estado").value = objeto.estado;
       novaLinha.remove();
+      removerDoLocalStorage(objeto.id);
     }),
       btnExcluir.addEventListener("click", function () {
         novaLinha.remove();
@@ -407,16 +410,15 @@ function adicionaNovoClienteNaTabela(objeto) {
 
   // Eventos dos botões
   btnEditar.addEventListener("click", () => {
-    document.getElementById("nome").value = tdNome.textContent;
-    document.getElementById("email").value = tdEmail.textContent;
-    document.getElementById("plano").value = tdPlano.textContent;
-
-    document.getElementById("cep").value = novaLinha.dataset.cep;
-    document.getElementById("rua").value = novaLinha.dataset.rua;
-    document.getElementById("bairro").value = novaLinha.dataset.bairro;
-    document.getElementById("cidade").value = novaLinha.dataset.cidade;
-    document.getElementById("estado").value = novaLinha.dataset.estado;
-
+    console.log(objeto);
+    document.getElementById("nome").value = objeto.nome;
+    document.getElementById("email").value = objeto.email;
+    document.getElementById("plano").value = objeto.plano; 
+    document.getElementById("cep").value = objeto.cep;
+    document.getElementById("rua").value = objeto.rua;
+    document.getElementById("bairro").value = objeto.bairro;
+    document.getElementById("cidade").value = objeto.cidade;
+    document.getElementById("estado").value = objeto.estado;
     novaLinha.remove();
     removerDoLocalStorage(objeto.id);
   });
