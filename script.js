@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function (event) {
 
-  //ao carregar a página, gera a tabela com os clientes cadastrados no local storage
+  // ao carregar a página, gera a tabela com os clientes cadastrados no local storage
   gerarTabela();
 
   // Busca o CEP após o usuário sair do campo de entrada (SEU CÓDIGO ORIGINAL MANTIDO)
@@ -18,8 +18,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
         .then((data) => {
           //obtendo os dados
           if (data.erro) {
-            // é booleano
-            // if (data.erro === "true") {
             throw new Error("CEP não encontrado");
           } else {
             rua.value = data.logradouro;
@@ -38,149 +36,168 @@ document.addEventListener("DOMContentLoaded", function (event) {
           cep.value = "";
         });
       //formata o campo de cep no formato 00000-000
-      let valor = cep.value.replace(/\D/g, ""); // Remove tudo o que não é número
+      let valor = cep.value.replace(/\D/g, ""); 
       if (valor.length <= 8) {
-        cep.value = valor.replace(/(\d{5})(\d{3})/, "$1-$2"); // coloca a máscara com traço -
+        cep.value = valor.replace(/(\d{5})(\d{3})/, "$1-$2"); 
       }
     }
   });
 
+  function simularAnaliseCredito(nome, plano) {
+    return new Promise((resolve, reject) => {
+      if (plano !== "Gold") {
+        resolve(); // Passa direto se não for Gold
+      } else {
+        setTimeout(() => {
+          const chanceReprovacao = Math.random();
+          if (chanceReprovacao <= 0.20) { // 20% de chance de erro
+            reject(new Error(`Análise de crédito reprovada para o cliente ${nome} (Plano Gold).`));
+          } else {
+            resolve();
+          }
+        }, 5000); // Simula 5 segundos de espera
+      }
+    });
+  }
+
   let formCliente = document.getElementById("formCliente");
   let listaClientes = document.getElementById("listaClientes");
+  let btnAdicionar = document.getElementById("btnAdicionar");
+  let statusArea = document.getElementById("statusArea");
 
-  formCliente.addEventListener("submit", function (e) {
+  formCliente.addEventListener("submit", async function (e) {
     e.preventDefault();
 
+    // Bloqueia interações do usuário durante o processamento
     btnAdicionar.disabled = true;
     btnAdicionar.innerHTML = "Processando...";
+    statusArea.className = "status loading";
 
-    statusArea.innerHTML = "";
-
-    // Lista de etapas
-    const etapas = [
-      "1. Consultando CEP...",
-      "2. Realizando análise de crédito...",
-      "3. Gerando Avatar...",
-      "4. Cadastro concluído!"
-    ];
-
-    let etapaAtual = 0;
-
-    // Função para mostrar cada etapa com intervalo
-    function mostrarEtapa() {
-      if (etapaAtual < etapas.length) {
-        const p = document.createElement("p");
-        p.textContent = etapas[etapaAtual];
-        statusArea.appendChild(p);
-
-        setTimeout(() => {
-          p.remove();
-        }, 7000);
-
-        etapaAtual++;
-        setTimeout(mostrarEtapa, 1500); 
-      } else {      
-        btnAdicionar.disabled = false;
-        btnAdicionar.innerHTML = "<strong>+ Adicionar</strong>";
-        }    
-    }
-
-    mostrarEtapa();
-
-    //le os campos do formulario
+    // Lê os campos do formulário
     let nome = document.getElementById("nome").value;
     let email = document.getElementById("email").value;
     let plano = document.getElementById("plano").value;
-    let cep = document.getElementById("cep").value;
+    let cepValor = document.getElementById("cep").value.replace(/\D/g, "");
     let rua = document.getElementById("rua").value;
     let bairro = document.getElementById("bairro").value;
     let cidade = document.getElementById("cidade").value;
     let estado = document.getElementById("estado").value;
-    let avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(nome)}&background=random`;
 
-    //configura avatar a ser salvo na tabela
-    let novaLinha = document.createElement("tr");
-    let tdAvatar = document.createElement("td");
-    let imgAvatar = document.createElement("img");
-    imgAvatar.src = avatarUrl;
-    imgAvatar.classList.add("img-avatar");
-    tdAvatar.appendChild(imgAvatar);
-    tdAvatar.style.display = "flex";
-    tdAvatar.style.justifyContent = "center";
-    tdAvatar.style.alignItems = "center";
+    try {
+      // 1. Validar CEP na API (Garante que não salva CEP inválido)
+      statusArea.textContent = "1. Consultando validação do CEP...";
+      let responseCep = await fetch(`https://viacep.com.br/ws/${cepValor}/json/`);
+      let dataCep = await responseCep.json();
 
-    let tdNome = document.createElement("td");
-    tdNome.style.textAlign = "center";
-    tdNome.textContent = nome;
+      if (dataCep.erro) {
+        throw new Error("O CEP informado não existe na base dos Correios.");
+      }
 
-    let tdEmail = document.createElement("td");
-    tdEmail.style.textAlign = "center";
-    tdEmail.textContent = email;
+      // 2. Análise de Crédito Simulada
+      statusArea.textContent = `2. Realizando análise de crédito para o plano ${plano}...`;
+      await simularAnaliseCredito(nome, plano);
 
-    let tdPlano = document.createElement("td");
-    tdPlano.style.textAlign = "center";
-    tdPlano.textContent = plano;
-    //adiciona cores no tipo plano escolhido
-    tdPlano.classList.add("plano" + plano);
+      // 3. Processamento de Imagem
+      statusArea.textContent = "3. Gerando Avatar e salvando dados...";
+      let avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(nome)}&background=random`;
 
-    let tdAcoes = document.createElement("td");
-    tdAcoes.style.textAlign = "center";
-    // tdAcoes.textContent = "Excluir";
-    tdAcoes.classList.add("tdAcoes");
+      let novaLinha = document.createElement("tr");
+      let tdAvatar = document.createElement("td");
+      let imgAvatar = document.createElement("img");
+      imgAvatar.src = avatarUrl;
+      imgAvatar.classList.add("img-avatar");
+      tdAvatar.appendChild(imgAvatar);
+      tdAvatar.style.display = "flex";
+      tdAvatar.style.justifyContent = "center";
+      tdAvatar.style.alignItems = "center";
 
-    let btnEditar = document.createElement("button");
-    btnEditar.type = "button";
-    btnEditar.classList.add("btnEditar");
+      let tdNome = document.createElement("td");
+      tdNome.style.textAlign = "center";
+      tdNome.textContent = nome;
 
-    let strongEditar = document.createElement("strong");
-    strongEditar.textContent = "Editar";
-    btnEditar.appendChild(strongEditar);
+      let tdEmail = document.createElement("td");
+      tdEmail.style.textAlign = "center";
+      tdEmail.textContent = email;
 
-    let btnExcluir = document.createElement("img");
-    btnExcluir.src = "./imgs/excluir.png";
-    btnExcluir.alt = "Excluir";
-    btnExcluir.classList.add("btnExcluir");
+      let tdPlano = document.createElement("td");
+      tdPlano.style.textAlign = "center";
+      tdPlano.textContent = plano;
+      tdPlano.classList.add("plano" + plano);
 
-    // container para os botões (flex)
-    let acoesBox = document.createElement("div");
-    acoesBox.classList.add("acoesBox");
+      let tdAcoes = document.createElement("td");
+      tdAcoes.style.textAlign = "center";
+      tdAcoes.classList.add("tdAcoes");
 
-    acoesBox.appendChild(btnEditar);
-    acoesBox.appendChild(btnExcluir);
+      let btnEditar = document.createElement("button");
+      btnEditar.type = "button";
+      btnEditar.classList.add("btnEditar");
 
-    tdAcoes.appendChild(acoesBox);
+      let strongEditar = document.createElement("strong");
+      strongEditar.textContent = "Editar";
+      btnEditar.appendChild(strongEditar);
 
-    novaLinha.appendChild(tdAvatar);
-    novaLinha.appendChild(tdNome);
-    novaLinha.appendChild(tdEmail);
-    novaLinha.appendChild(tdPlano);
-    novaLinha.appendChild(tdAcoes);
+      let btnExcluir = document.createElement("img");
+      btnExcluir.src = "./imgs/excluir.png";
+      btnExcluir.alt = "Excluir";
+      btnExcluir.classList.add("btnExcluir");
 
-    listaClientes.appendChild(novaLinha);
+      let acoesBox = document.createElement("div");
+      acoesBox.classList.add("acoesBox");
 
-    //após adicionar o cliente na tabela, cria o objeto cliente e adiciona no local storage
-    let objCliente = criaObjetoCliente(avatarUrl, nome, email, plano, cep, rua, bairro, cidade, estado);
-    adicionaItemNoLocalStorage("cliente_db", objCliente);
+      acoesBox.appendChild(btnEditar);
+      acoesBox.appendChild(btnExcluir);
 
-    //eventos botões Editar e Excluir
-    (btnEditar.addEventListener("click", () => {
-      document.getElementById("nome").value = tdNome.textContent;
-      document.getElementById("email").value = tdEmail.textContent;
-      document.getElementById("plano").value = tdPlano.textContent;
-      novaLinha.remove();
-    }),
+      tdAcoes.appendChild(acoesBox);
+
+      novaLinha.appendChild(tdAvatar);
+      novaLinha.appendChild(tdNome);
+      novaLinha.appendChild(tdEmail);
+      novaLinha.appendChild(tdPlano);
+      novaLinha.appendChild(tdAcoes);
+
+      listaClientes.appendChild(novaLinha);
+
+      // Salva no LocalStorage
+      let objCliente = criaObjetoCliente(avatarUrl, nome, email, plano, cepValor, rua, bairro, cidade, estado);
+      adicionaItemNoLocalStorage("cliente_db", objCliente);
+
+      // Eventos botões Editar e Excluir
+      btnEditar.addEventListener("click", () => {
+        document.getElementById("nome").value = tdNome.textContent;
+        document.getElementById("email").value = tdEmail.textContent;
+        document.getElementById("plano").value = tdPlano.textContent;
+        novaLinha.remove();
+        removerDoLocalStorage(objCliente.id); // Adicionado para manter a consistência
+      });
+
       btnExcluir.addEventListener("click", function () {
         novaLinha.remove();
-      }));
+        removerDoLocalStorage(objCliente.id); // Adicionado para manter a consistência
+      });
 
-    formCliente.reset();
+      // Finalização com Sucesso
+      statusArea.className = "status success";
+      statusArea.textContent = "4. Cadastro concluído com sucesso!";
+      formCliente.reset();
+      
+      setTimeout(() => statusArea.textContent = "", 4000); // Limpa a mensagem após 4s
+
+    } catch (error) {
+      // O Catch captura rejeições do ViaCEP ou da Análise de Crédito e bloqueia o cadastro
+      statusArea.className = "status error";
+      statusArea.textContent = `Erro: ${error.message}`;
+    } finally {
+      // Reabilita o botão independente de sucesso ou falha
+      btnAdicionar.disabled = false;
+      btnAdicionar.innerHTML = "<strong>+ Adicionar</strong>";
+    }
   });
 });
 
-
+// Funções Auxiliares
 function criaObjetoCliente(avatarUrl, nome, email, plano, cep, rua, bairro, cidade, estado) {
   let cliente = {
-    id: Date.now(), // Gera um ID único com base no timestamp
+    id: Date.now(),
     avatarUrl: avatarUrl,
     nome: nome,
     email: email,
@@ -195,22 +212,17 @@ function criaObjetoCliente(avatarUrl, nome, email, plano, cep, rua, bairro, cida
 }
 
 function adicionaItemNoLocalStorage(chaveStorage, objeto) {
-
   let clientesExistentes = JSON.parse(localStorage.getItem(chaveStorage)) || [];
   clientesExistentes.push(objeto);
   localStorage.setItem(chaveStorage, JSON.stringify(clientesExistentes));
-  //console.log(clientesExistentes);
-  alert("Cliente adicionado ao Local Storage!");
-  
+  // alert("Cliente adicionado ao Local Storage!"); // Removido para não atrapalhar a UX com o statusArea
 }
 
 function adicionaNovoClienteNaTabela(objeto) {
   let listaClientes = document.getElementById("listaClientes");
   
-  // Cria nova linha
   let novaLinha = document.createElement("tr");
   
-  // Avatar
   let tdAvatar = document.createElement("td");
   let imgAvatar = document.createElement("img");
   imgAvatar.src = objeto.avatarUrl;
@@ -220,23 +232,19 @@ function adicionaNovoClienteNaTabela(objeto) {
   tdAvatar.style.justifyContent = "center";
   tdAvatar.style.alignItems = "center";
   
-  // Nome
   let tdNome = document.createElement("td");
   tdNome.style.textAlign = "center";
   tdNome.textContent = objeto.nome;
   
-  // Email
   let tdEmail = document.createElement("td");
   tdEmail.style.textAlign = "center";
   tdEmail.textContent = objeto.email;
   
-  // Plano
   let tdPlano = document.createElement("td");
   tdPlano.style.textAlign = "center";
   tdPlano.textContent = objeto.plano;
   tdPlano.classList.add("plano" + objeto.plano);
   
-  // Ações
   let tdAcoes = document.createElement("td");
   tdAcoes.style.textAlign = "center";
   tdAcoes.classList.add("tdAcoes");
@@ -260,7 +268,6 @@ function adicionaNovoClienteNaTabela(objeto) {
   
   tdAcoes.appendChild(acoesBox);
   
-  // Monta a linha
   novaLinha.appendChild(tdAvatar);
   novaLinha.appendChild(tdNome);
   novaLinha.appendChild(tdEmail);
@@ -269,7 +276,6 @@ function adicionaNovoClienteNaTabela(objeto) {
   
   listaClientes.appendChild(novaLinha);
   
-  // Eventos dos botões
   btnEditar.addEventListener("click", () => {
     document.getElementById("nome").value = tdNome.textContent;
     document.getElementById("email").value = tdEmail.textContent;
@@ -292,45 +298,37 @@ function removerDoLocalStorage(id) {
 }
 
 function gerarTabela() {
-    // Recupera e converte
     const dados = JSON.parse(localStorage.getItem('cliente_db')) || [];
     const tabelaBody = document.getElementById('listaClientes');
-    tabelaBody.innerHTML = ""; // Limpa a tabela antes de recriar
+    tabelaBody.innerHTML = ""; 
     dados.forEach(cliente => {
         adicionaNovoClienteNaTabela(cliente);
     });
-    console.log("Gerando tabela com os seguintes dados do Local Storage:");
-    console.log(dados);
 }
 
 const nomeUsuario = document.querySelector("#codigoUsuario");
 const btnUsuario = document.querySelector("#validarUsuario");
 
-// função Validar Usuário
 btnUsuario.addEventListener("click", () => {
   let codigosAceitos = ["Adriana", "Debora", "Patricia", "Thales", "Rafael"];
-  let usuarioDigitado = nomeUsuario.value.trim(); //tira espaços antes e depois
+  let usuarioDigitado = nomeUsuario.value.trim(); 
 
-  //verifica se está vazio
   if (usuarioDigitado === "") {
     alert("Campo Usuário é obrigatório.");
     return;
   }
 
-  //valida usuario da lista
   if (codigosAceitos.includes(usuarioDigitado)) {
     alert("Bem vindo(a) " + usuarioDigitado + "!");
   } else {
-    alert("Usuário  " + usuarioDigitado + "não cadastrado , tente novamente!");
+    alert("Usuário " + usuarioDigitado + " não cadastrado, tente novamente!");
   }
 });
 
-//valida email
+let email = document.getElementById("email");
 email.addEventListener("blur", () => {
-  let tiraEspacoEmail = email.value.trim(); //tira espaçom antes e depois
-
+  let tiraEspacoEmail = email.value.trim(); 
   const validaEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  // até antes do ponto /^[^\s@]+@[^\s@]+\. valida tudo até o @ - Um ou mais caracteres que NÃO sejam espaço nem @
 
   if (tiraEspacoEmail !== "" && !validaEmail.test(tiraEspacoEmail)) {
     email.classList.add("invalido");
@@ -339,22 +337,20 @@ email.addEventListener("blur", () => {
   }
 });
 
-//campo  de busca
 const campoBusca = document.querySelector("#busca");
-const listaClientes = document.querySelector("#listaClientes");
+const tbClientes = document.querySelector("#listaClientes");
 
 campoBusca.addEventListener("input", () => {
-  const textoMinusculo = campoBusca.value.trim().toLowerCase(); //considera o texto em minúsculo e sem espaço
-  const clientesCadastrados = listaClientes.querySelectorAll("tr"); //considera todas as linhas da tabela (tr)
+  const textoMinusculo = campoBusca.value.trim().toLowerCase(); 
+  const clientesCadastrados = tbClientes.querySelectorAll("tr"); 
 
   clientesCadastrados.forEach(function (linhaTabela) {
-    //percorro por todos os cadastros pra armazenar o contéudo na linhaTabela
-    const textoLinha = linhaTabela.innerText.toLowerCase(); //pega todo texto da linha em minúsculo
+    const textoLinha = linhaTabela.innerText.toLowerCase(); 
 
     if (textoLinha.includes(textoMinusculo)) {
-      linhaTabela.style.display = ""; //se o texto digitado contem na linha, mostra
+      linhaTabela.style.display = ""; 
     } else {
-      linhaTabela.style.display = "none"; //se o texto digitado contem na linha, esconde
+      linhaTabela.style.display = "none"; 
     }
   });
 });
